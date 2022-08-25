@@ -6,8 +6,6 @@
         - 'refs/pull/*'
   priority: 'NORMAL'
   fail_on_prepare_env_warning: true
-  trigger_condition: 'ALWAYS'
-  auto_clear_cache: true
   actions:
     - action: 'Install depedencies'
       type: 'BUILD'
