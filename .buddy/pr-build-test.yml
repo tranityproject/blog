@@ -1,0 +1,43 @@
+- pipeline: 'Build and test on every pull request'
+  trigger_mode: 'ON_EVERY_PUSH'
+  ref_name: 'refs/pull/*'
+  ref_type: 'WILDCARD'
+  trigger_condition: 'ALWAYS'
+  auto_clear_cache: true
+  actions:
+    - action: 'Install depedencies'
+      type: 'BUILD'
+      working_directory: '/buddy/tranityproject-blog'
+      main_service_name: 'Main'
+      docker_image_name: 'library/node'
+      docker_image_tag: '16'
+      execute_commands:
+        - 'yarn install'
+      volume_mappings:
+        - '/:/buddy/tranityproject-blog'
+      cache_base_image: true
+      shell: 'BASH'
+    - action: 'Check linter'
+      type: 'BUILD'
+      working_directory: '/buddy/tranityproject-blog'
+      main_service_name: 'Main'
+      docker_image_name: 'library/node'
+      docker_image_tag: '16'
+      execute_commands:
+        - 'yarn lint'
+      volume_mappings:
+        - '/:/buddy/tranityproject-blog'
+      cache_base_image: true
+      shell: 'BASH'
+    - action: 'Build the project'
+      type: 'BUILD'
+      working_directory: '/buddy/tranityproject-blog'
+      main_service_name: 'Main'
+      docker_image_name: 'library/node'
+      docker_image_tag: '16'
+      execute_commands:
+        - 'yarn build'
+      volume_mappings:
+        - '/:/buddy/tranityproject-blog'
+      cache_base_image: true
+      shell: 'BASH'
