@@ -9,15 +9,16 @@
   actions:
     - action: 'Test & build'
       type: 'BUILD'
-      working_directory: '/buddy/tranityproject-blog'
+      working_directory: '/buddy/blog'
       main_service_name: 'Main'
       docker_image_name: 'library/node'
       docker_image_tag: '16'
       execute_commands:
         - 'yarn install'
         - 'yarn lint'
+        - 'yarn tsc'
         - 'yarn build'
       volume_mappings:
-        - '/:/buddy/tranityproject-blog'
+        - '/:/buddy/blog'
       cache_base_image: true
       shell: 'BASH'
