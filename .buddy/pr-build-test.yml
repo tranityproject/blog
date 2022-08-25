@@ -6,18 +6,70 @@
         - 'refs/pull/*'
   priority: 'NORMAL'
   fail_on_prepare_env_warning: true
+  auto_clear_cache: true
+  fetch_all_refs: true
+  trigger_conditions:
+    - trigger_condition: 'ALWAYS'
+
+  variables:
+    - key: NEXT_PUBLIC_GISCUS_REPO
+      value: 'tranityproject/blog'
+    - key: NEXT_PUBLIC_GISCUS_REPOSITORY_ID
+      value: 'R_kgDOGoRkFQ'
+    - key: NEXT_PUBLIC_GISCUS_CATEGORY
+      value: 'General'
+    - key: NEXT_PUBLIC_GISCUS_CATEGORY_ID
+      value: 'DIC_kwDOGoRkFc4CAjim'
+    - key: NEXT_PUBLIC_UTTERANCES_REPO
+      value: ''
+      settable: true
+    - key: NEXT_PUBLIC_DISQUS_SHORTNAME
+      value: ''
+      settable: true
+    - key: MAILCHIMP_API_KEY
+      value: ''
+      settable: true
+    - key: MAILCHIMP_API_SERVER
+      value: ''
+      settable: true
+    - key: MAILCHIMP_AUDIENCE_ID
+      value: ''
+      settable: true
+    - key: BUTTONDOWN_API_URL
+      value: ''
+      settable: true
+    - key: BUTTONDOWN_API_KEY
+      value: ''
+      settable: true
+    - key: CONVERTKIT_API_URL
+      value: ''
+      settable: true
+    - key: CONVERTKIT_API_KEY
+      value: ''
+      settable: true
+    - key: CONVERTKIT_FORM_ID
+      value: ''
+      settable: true
+    - key: KLAVIYO_API_KEY
+      value: ''
+      settable: true
+    - key: KLAVIYO_LIST_ID
+      value: ''
+      settable: true
+
   actions:
     - action: 'Test & build'
       type: 'BUILD'
-      working_directory: '/buddy/tranityproject-blog'
+      working_directory: '/buddy/blog'
       main_service_name: 'Main'
       docker_image_name: 'library/node'
       docker_image_tag: '16'
       execute_commands:
         - 'yarn install'
         - 'yarn lint'
+        - 'yarn tsc'
         - 'yarn build'
       volume_mappings:
-        - '/:/buddy/tranityproject-blog'
+        - '/:/buddy/blog'
       cache_base_image: true
       shell: 'BASH'
