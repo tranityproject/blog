@@ -40,7 +40,14 @@ export function dateSortDesc(a: string, b: string) {
   return 0
 }
 
-export async function getFileBySlug<T>(type: 'authors' | 'blog', slug: string | string[]) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function getFileBySlug<T>({
+  type,
+  slug,
+}: {
+  type: 'authors' | 'blog'
+  slug: string | string[]
+}) {
   const mdxPath = path.join(root, 'data', type, `${slug}.mdx`)
   const mdPath = path.join(root, 'data', type, `${slug}.md`)
   const source = fs.existsSync(mdxPath)

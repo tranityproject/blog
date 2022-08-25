@@ -1,0 +1,57 @@
+- pipeline: 'Deploy to production'
+  on: 'EVENT'
+  events:
+    - type: 'PUSH'
+      refs:
+        - 'refs/heads/main'
+  priority: 'NORMAL'
+  fail_on_prepare_env_warning: true
+  actions:
+    - action: 'Deployment started'
+      type: 'DISCORD2'
+      notification_url: 'https://discord.com/api/webhooks/928369497214173284/cMD05LeMGKC1yRJMU0VtypPGvgDuMwGp74firBftDonfPupwESQKhTI-JeErvupUrdeH'
+      content: '[#$BUDDY_EXECUTION_ID] $BUDDY_PIPELINE_NAME by $BUDDY_INVOKER_NAME has started ⌛'
+      attachments:
+        - '{"title":"Details","url":"$BUDDY_EXECUTION_URL","fields":[{"name":"Status","value":"Successful execution"},{"name":"Revision","value":"$BUDDY_EXECUTION_REVISION"},{"name":"Pipeline","value":"$BUDDY_PIPELINE_NAME"},{"name":"Project","value":"$BUDDY_PROJECT_NAME"}]}'
+    - action: 'Test & build'
+      type: 'BUILD'
+      working_directory: '/buddy/tranityproject-blog'
+      main_service_name: 'Main'
+      docker_image_name: 'library/node'
+      docker_image_tag: '16'
+      execute_commands:
+        - 'yarn install'
+        - 'yarn lint'
+        - 'yarn build'
+      volume_mappings:
+        - '/:/buddy/tranityproject-blog'
+      cache_base_image: true
+      shell: 'BASH'
+    - action: 'Deploy to server'
+      type: 'SSH_COMMAND'
+      working_directory: '/www/wwwroot/blog.tranityproject.com'
+      login: 'root'
+      host: '157.230.246.134'
+      port: '8641'
+      server_key: 'secure!cia9zXHox8oTJO90ESJX2Y82Zsq3uXLVH0bRdVo2Eqb+EJkguqOT66i3U/RNRnkUxUDn0lALxi4ClajlhgFlZ/7coTM7r+BaJaie64gWJp4kDCLI320LvtLtN4clAsWyuJ3y5C0/en1/3TJGfRw6v+bIkLHd8fzSFs01jmHavdDVzfIzjptvtFXXlFG13ihuWGGDjx5zLbMpESL3WqrmwK26gKhB9ueVx6yqlmKTBI8lWg5enig0WujeALUDwy2XvvJqXNvmPJ9r9toCkwWQULExmKMJ34SsGT1zgZdQGi1rZk60fK8KSF1zEblnmKHRCmU/Ne/JTkUSobSB8qJqa0cYL5mKN5T8LsTZgCtx20G51mtuitTS0vN9KO6NF7HfM1NCl20PeL/kJccVwW7NJxeYN+pzHSf7CtxpoNfRuzC4pFtoSvwCSEZu/jjCfxtRifpuUHLwe1J/QekRPgJc5YsgkRndmc/kYJvD1bQm4i9cCEAQkYRl2MMJRjw+l2b5udHYxiUwvbS8jHKA/Js7l5EPb+ETEi3RjeBwQGD/vhucC5GlzihGZzBV5lTHdgYS.im34NQAaifBcGnjKXuuToQ=='
+      authentication_mode: 'PRIVATE_KEY'
+      commands:
+        - 'yarn install '
+        - 'yarn lint'
+        - 'yarn build'
+        - 'pm2 restart blog_tranityproject'
+      run_as_script: true
+      shell: 'SH'
+    - action: 'Deployment finished'
+      type: 'DISCORD2'
+      notification_url: 'https://discord.com/api/webhooks/928369497214173284/cMD05LeMGKC1yRJMU0VtypPGvgDuMwGp74firBftDonfPupwESQKhTI-JeErvupUrdeH'
+      content: '[#$BUDDY_EXECUTION_ID] $BUDDY_PIPELINE_NAME by $BUDDY_INVOKER_NAME has finished ✅'
+      attachments:
+        - '{"title":"Details","url":"$BUDDY_EXECUTION_URL","fields":[{"name":"Status","value":"Successful execution"},{"name":"Revision","value":"$BUDDY_EXECUTION_REVISION"},{"name":"Pipeline","value":"$BUDDY_PIPELINE_NAME"},{"name":"Project","value":"$BUDDY_PROJECT_NAME"}]}'
+    - action: 'Deployment failed'
+      type: 'DISCORD2'
+      trigger_time: 'ON_FAILURE'
+      notification_url: 'https://discord.com/api/webhooks/928369497214173284/cMD05LeMGKC1yRJMU0VtypPGvgDuMwGp74firBftDonfPupwESQKhTI-JeErvupUrdeH'
+      content: '[#$BUDDY_EXECUTION_ID] $BUDDY_PIPELINE_NAME by $BUDDY_INVOKER_NAME has failed ❌'
+      attachments:
+        - '{"title":"Details","url":"$BUDDY_EXECUTION_URL","fields":[{"name":"Status","value":"Failed execution"},{"name":"Revision","value":"$BUDDY_EXECUTION_REVISION"},{"name":"Pipeline","value":"$BUDDY_PIPELINE_NAME"},{"name":"Project","value":"$BUDDY_PROJECT_NAME"}]}'
