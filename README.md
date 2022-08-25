@@ -1,6 +1,6 @@
 # Tranity Project Blog
 
-[![buddy pipeline](https://app.buddy.works/tranityproject/blog/pipelines/pipeline/367691/badge.svg?token=2605710387551f1c6dc285fb6f3131cc8cf8aefc971bcd06e02065b3a333024a 'buddy pipeline')](https://app.buddy.works/tranityproject/blog/pipelines/pipeline/367691)
+[![buddy branch](https://app.buddy.works/tranity-project/tranityproject-blog/repository/branch/ayungavis%2Fsetup-buddy/badge.svg?token=0fdb5689e91e449fc10417849d5c73c0f5a7496b33977b9cbe63aa8bdede5d85 'buddy branch')](https://app.buddy.works/tranity-project/tranityproject-blog/repository/branch/undefined)
 
 A place for developers share their experience with others.
 

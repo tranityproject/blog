@@ -1,7 +1,11 @@
 - pipeline: 'Build and test on every pull request'
-  trigger_mode: 'ON_EVERY_PUSH'
-  ref_name: 'refs/pull/*'
-  ref_type: 'WILDCARD'
+  on: 'EVENT'
+  events:
+    - type: 'WILDCARD'
+      refs:
+        - 'refs/pull/*'
+  priority: 'NORMAL'
+  fail_on_prepare_env_warning: true
   trigger_condition: 'ALWAYS'
   auto_clear_cache: true
   actions:
