@@ -6,8 +6,6 @@ A place for developers share their experience with others.
 
 ## Installation
 
-Test
-
 ```bash
 yarn install
 ```

@@ -7,7 +7,7 @@
   priority: 'NORMAL'
   fail_on_prepare_env_warning: true
   actions:
-    - action: 'Install depedencies'
+    - action: 'Test & build'
       type: 'BUILD'
       working_directory: '/buddy/tranityproject-blog'
       main_service_name: 'Main'
@@ -15,29 +15,7 @@
       docker_image_tag: '16'
       execute_commands:
         - 'yarn install'
-      volume_mappings:
-        - '/:/buddy/tranityproject-blog'
-      cache_base_image: true
-      shell: 'BASH'
-    - action: 'Check linter'
-      type: 'BUILD'
-      working_directory: '/buddy/tranityproject-blog'
-      main_service_name: 'Main'
-      docker_image_name: 'library/node'
-      docker_image_tag: '16'
-      execute_commands:
         - 'yarn lint'
-      volume_mappings:
-        - '/:/buddy/tranityproject-blog'
-      cache_base_image: true
-      shell: 'BASH'
-    - action: 'Build the project'
-      type: 'BUILD'
-      working_directory: '/buddy/tranityproject-blog'
-      main_service_name: 'Main'
-      docker_image_name: 'library/node'
-      docker_image_tag: '16'
-      execute_commands:
         - 'yarn build'
       volume_mappings:
         - '/:/buddy/tranityproject-blog'
